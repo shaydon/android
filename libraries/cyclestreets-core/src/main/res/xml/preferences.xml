@@ -74,6 +74,10 @@
 			android:defaultValue="50"
 			android:entries="@array/distance"
 			android:entryValues="@array/distance_values" />
+        <CheckBoxPreference
+            android:key="verbose-voice-guidance"
+            android:title="Verbose voice guidance"
+            android:defaultValue="false" />
 	</PreferenceCategory>
     <PreferenceCategory
     	android:title="CycleStreets Account">
