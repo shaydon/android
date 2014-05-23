@@ -221,6 +221,7 @@ public abstract class Segment
   public boolean walk() { return walk_; }
   public String runningTime() { return running_time_; }
   public String distance() { return formatter.distance(distance_); }
+  public int numericDistance() { return distance_; }
   public String runningDistance() { return formatter.total_distance(running_distance_); }
   public String extraInfo() { return ""; }
   public IterableIterator<GeoPoint> points() { return new IterableIterator<GeoPoint>(points_.iterator()); }

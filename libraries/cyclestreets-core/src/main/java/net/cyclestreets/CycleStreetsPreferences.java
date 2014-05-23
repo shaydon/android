@@ -34,6 +34,7 @@ public class CycleStreetsPreferences
   public final static String PREF_OFFTRACK_DISTANCE = "offtrack-distance";
   public final static String PREF_REPLAN_DISTANCE = "replan-distance";
   public final static String PREF_VERBOSE_VOICE_GUIDANCE = "verbose-voice-guidance";
+  public final static String PREF_COALESCE_WARNINGS_DISTANCE = "coalesce-warnings-distance";
 
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
@@ -135,6 +136,10 @@ public class CycleStreetsPreferences
 
   static public boolean verboseVoiceGuidance() {
       return getBoolean(PREF_VERBOSE_VOICE_GUIDANCE, false);
+  }
+
+  static public int coalesceWarningsDistance() {
+    return Integer.parseInt(getString(PREF_COALESCE_WARNINGS_DISTANCE, "50"));
   }
 
   static public boolean uploadSmallImages() {

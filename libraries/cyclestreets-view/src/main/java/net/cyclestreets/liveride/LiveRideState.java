@@ -54,21 +54,20 @@ public abstract class LiveRideState
   protected Context context() { return context_; }
   protected TextToSpeech tts() { return tts_; }
 
-  protected StringBuilder turnInstruction(final Segment seg)
+  protected void appendTurnInstruction(final StringBuilder text, final Segment seg)
   {
-    final StringBuilder instruction = new StringBuilder();
     if(seg.turn().length() != 0)
-      instruction.append(seg.turn()).append(" into ");
-    instruction.append(seg.street().replace("un-", "un").replace("Un-", "un")).append(".");
-    return instruction;
+      text.append(seg.turn()).append(" into ");
+    text.append(seg.street().replace("un-", "un").replace("Un-", "un"));
   }
 
   protected void notify(final Segment seg) 
   {
     notification(seg.street() + " " + seg.distance(), seg.toString());
     
-    final StringBuilder instruction = turnInstruction(seg);
-    instruction.append(" Continue ").append(seg.distance());
+    final StringBuilder instruction = new StringBuilder();
+    appendTurnInstruction(instruction, seg);
+    instruction.append(". Continue ").append(seg.distance());
     speak(instruction.toString());
   } // notify
   
