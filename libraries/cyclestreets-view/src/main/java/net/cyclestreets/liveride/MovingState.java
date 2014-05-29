@@ -20,6 +20,7 @@ abstract class MovingState extends LiveRideState
   {
     int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
     distanceFromEnd -= accuracy;
+    log("Distance from end: " + distanceFromEnd);
     if(distanceFromEnd < transition_)
       return transitionState(journey);
 

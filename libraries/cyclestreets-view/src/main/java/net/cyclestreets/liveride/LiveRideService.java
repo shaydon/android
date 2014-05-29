@@ -2,6 +2,7 @@ package net.cyclestreets.liveride;
 
 import org.osmdroid.util.GeoPoint;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import android.app.Service;
@@ -104,8 +105,20 @@ public class LiveRideService extends Service
     final float accuracy = location.hasAccuracy() ? location.getAccuracy() : 2;
 
     final Journey journey = Route.journey();
- 
-    stage_ = stage_.update(journey, whereIam, (int)accuracy);
+
+    if (CycleStreetsPreferences.verboseVoiceGuidance())
+    {
+      LiveRideState previous;
+      do
+      {
+        previous = stage_;
+        stage_ = stage_.update(journey, whereIam, (int) accuracy);
+      } while (stage_ != previous);
+    }
+    else
+    {
+      stage_ = stage_.update(journey, whereIam, (int) accuracy);
+    }
   } // onLocationChanged
 
   @Override

@@ -18,6 +18,9 @@ final class AdvanceToSegment extends LiveRideState
                    final Segment segment) 
   {
     super(previous);
+    log("Segment length: " + segment.numericDistance());
+    if (journey.segmentIndex(segment) < journey.activeSegmentIndex())
+      journey.setLastWarnedSegmentIndex(0);
     journey.setActiveSegment(segment);
     notify(segment);
   } // AdvanceToSegment

@@ -15,8 +15,8 @@ final class NearingTurn extends MovingState
     final Segments segments = journey.segments();
     if (CycleStreetsPreferences.verboseVoiceGuidance())
     {
-    // if (journey.activeSegment().numericDistance() < CycleStreetsPreferences.coalesceWarningsDistance())
-    //  return;
+      if (journey.lastWarnedSegmentIndex() > journey.activeSegmentIndex())
+        return;
       final StringBuilder instructions = new StringBuilder();
       for (int i = journey.activeSegmentIndex() + 1, n = 1;
            i < segments.count() && n <= 3;
@@ -25,6 +25,8 @@ final class NearingTurn extends MovingState
         Segment segment = segments.get(i);
         if (n > 1) instructions.append(", then ");
         appendTurnInstruction(instructions, segment);
+        journey.setLastWarnedSegmentIndex(i);
+        log("Warning segment no. " + i);
         if (segment.numericDistance() >= CycleStreetsPreferences.coalesceWarningsDistance())
           break;
       }
@@ -32,7 +34,8 @@ final class NearingTurn extends MovingState
     }
     else
     {
-      notify("Coming up: " + segments.get(journey.activeSegmentIndex() + 1).turn());
+      final Segment segment = journey.segments().get(journey.activeSegmentIndex()+1);
+      notify("Get ready to " + segment.turn());
     }
   } // NearingEnd
 

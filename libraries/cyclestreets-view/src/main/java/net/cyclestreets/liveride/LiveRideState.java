@@ -37,16 +37,23 @@ public abstract class LiveRideState
   
   protected LiveRideState(final Context context, final TextToSpeech tts) 
   {
+    log("Created " + this.getClass().getName());
     context_ = context;
     tts_ = tts;
   } // LiveRideState
   
   protected LiveRideState(final LiveRideState state) 
   {
+    log("Created " + this.getClass().getName());
     context_ = state.context();
     tts_ = state.tts();
   } // LiveRideState
-  
+
+  protected void log(String msg)
+  {
+    android.util.Log.d("CYCLESTREETS", msg);
+  }
+
   public abstract LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy);
   public abstract boolean isStopped();
   public abstract boolean arePedalling();
@@ -105,6 +112,7 @@ public abstract class LiveRideState
 
   private void speak(final String words)
   {
+    log("Speech: " + words);
     tts().speak(words, TextToSpeech.QUEUE_ADD, null);
   } // speak
 } // interface LiveRideState

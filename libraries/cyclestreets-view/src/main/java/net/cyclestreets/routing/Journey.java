@@ -22,18 +22,21 @@ public class Journey
   private Waypoints waypoints_;
   private Segments segments_;
   private int activeSegment_;
+  private int lastWarnedSegment_;
     
   static public final Journey NULL_JOURNEY;
   static {
     NULL_JOURNEY = new Journey();
     NULL_JOURNEY.activeSegment_ = -1;
+    NULL_JOURNEY.lastWarnedSegment_ = -1;
   }
 
   private Journey() 
   {
     waypoints_ = new Waypoints();
     segments_ = new Segments();
-    activeSegment_ = 0;   
+    activeSegment_ = 0;
+    lastWarnedSegment_ = 0;
   } // PlannedRoute
   
   private Journey(final Waypoints waypoints)
@@ -62,15 +65,11 @@ public class Journey
   public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
   public void setActiveSegment(final Segment seg) 
   {
-    for(int i = 0; i != segments_.count(); ++i)
-      if(seg == segments_.get(i))
-      {
-        setActiveSegmentIndex(i);
-        break;
-      }
+    int i = segmentIndex(seg);
+    if (i > -1) setActiveSegmentIndex(i);
   } // setActiveSegment
   public int activeSegmentIndex() { return activeSegment_; }
-  
+
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
   public Segment nextSegment() 
   {
@@ -93,7 +92,18 @@ public class Journey
     if(!atEnd()) 
       ++activeSegment_; 
   } // advanceActiveSegment
-  
+
+  public int segmentIndex(final Segment seg)
+  {
+    for(int i = 0; i != segments_.count(); ++i)
+      if(seg == segments_.get(i))
+        return i;
+    return -1;
+  } // segmentIndex
+
+  public void setLastWarnedSegmentIndex(int index) { lastWarnedSegment_ = index; }
+  public int lastWarnedSegmentIndex() { return lastWarnedSegment_; }
+
   public Iterator<GeoPoint> points()
   {
     return segments_.pointsIterator();
