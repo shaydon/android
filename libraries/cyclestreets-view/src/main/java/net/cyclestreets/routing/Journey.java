@@ -93,11 +93,39 @@ public class Journey
     if(!atEnd()) 
       ++activeSegment_; 
   } // advanceActiveSegment
+
+  /**
+   * Returns all segments beyond the active segment.
+   */
+  public Segments upcomingSegments()
+  {
+    final Segments upcoming = new Segments();
+    for(int i = activeSegment_ + 1; i < segments_.count(); ++i)
+      upcoming.add(segments_.get(i));
+    return upcoming;
+  } // upcomingSegments
   
   public Iterator<GeoPoint> points()
   {
     return segments_.pointsIterator();
   } // points
+  
+  /**
+   * Returns all routing waypoints beyond the active segment.
+   * 
+   * Includes the end and possibly even the start (if there's no active segment yet).
+   */
+  public Waypoints upcomingWaypoints()
+  {
+    final Iterator<GeoPoint> waypoints = waypoints_.reversed().iterator();
+    final Waypoints upcoming = new Waypoints();
+    
+    for(final Segment seg : upcomingSegments().reversed())
+      if (seg.isWaypoint() && waypoints.hasNext())
+        upcoming.add(waypoints.next());
+    
+    return upcoming.reversed();
+  } // upcomingWaypoints
   
   ////////////////////////////////////////////////////////////////
   static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)

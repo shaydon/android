@@ -34,7 +34,7 @@ abstract class MovingState extends LiveRideState
     distance -= accuracy;
     
     if(distance > CycleStreetsPreferences.replanDistance())
-      return new ReplanFromHere(this, whereIam);
+      return new ReplanFromHere(this, journey, whereIam);
 
     if(distance > CycleStreetsPreferences.offtrackDistance())
       return new GoingOffCourse(this);

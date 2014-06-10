@@ -33,7 +33,7 @@ final class GoingOffCourse extends LiveRideState
     distance -= accuracy;
     
     if(distance > CycleStreetsPreferences.replanDistance())
-      return new ReplanFromHere(this, whereIam);
+      return new ReplanFromHere(this, journey, whereIam);
     
     if(nearestSeg != journey.activeSegment())
       return new AdvanceToSegment(this, journey, nearestSeg);

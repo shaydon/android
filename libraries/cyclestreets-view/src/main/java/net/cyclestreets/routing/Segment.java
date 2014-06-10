@@ -225,6 +225,11 @@ public abstract class Segment
   public String extraInfo() { return ""; }
   public IterableIterator<GeoPoint> points() { return new IterableIterator<GeoPoint>(points_.iterator()); }
 
+  /**
+   * Does this segment correspond to a routing waypoint (start, end or waymark)?
+   */
+  public boolean isWaypoint() { return false; }
+
   static public class Start extends Segment 
   {
     private final int itinerary_;
@@ -279,6 +284,9 @@ public abstract class Segment
     } // extraInfo
 
     public int crossTrackError(final GeoPoint location) { return Integer.MAX_VALUE; } 
+
+    @Override
+    public boolean isWaypoint() { return true; }
   } // class Start
   
   static public class End extends Segment
@@ -297,6 +305,9 @@ public abstract class Segment
     public String toString() { return street(); }
     public String distance() { return ""; }
     public int total_distance() { return total_distance_; }
+
+    @Override
+    public boolean isWaypoint() { return true; }
   } // End
   
   static public class Step extends Segment
@@ -350,5 +361,8 @@ public abstract class Segment
 
     public String distance() { return ""; }
     public String toString() { return street(); } 
+
+    @Override
+    public boolean isWaypoint() { return true; }
   } // class Waymark
 } // class Segment

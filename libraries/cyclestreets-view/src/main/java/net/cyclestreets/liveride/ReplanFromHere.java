@@ -1,6 +1,5 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
@@ -12,19 +11,25 @@ final class ReplanFromHere extends LiveRideState
 {
   private LiveRideState next_;
 
-  ReplanFromHere(final LiveRideState previous, final GeoPoint whereIam)
+  ReplanFromHere(final LiveRideState previous, final Journey journey, final GeoPoint whereIam)
   {
     super(previous);
     notify("Too far away. Re-planning the journey.");
 
     next_ = this;
 
-    final GeoPoint finish = Route.waypoints().last();    
+    // Reroute through unvisited waypoints, preserving speed and journey type.
+    
+    final Waypoints waypoints = new Waypoints();
+    waypoints.add(whereIam);
+    for(final GeoPoint point : journey.upcomingWaypoints())
+      waypoints.add(point);
+    
     Route.softRegisterListener(this);
-    Route.PlotRoute(CycleStreetsPreferences.routeType(), 
-                    CycleStreetsPreferences.speed(),
+    Route.PlotRoute(journey.plan(),
+                    journey.speed(),
                     context(),
-                    Waypoints.fromTo(whereIam, finish));
+                    waypoints);
   } // ReplanFromHere
   
   @Override

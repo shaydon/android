@@ -1,6 +1,7 @@
 package net.cyclestreets.routing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +15,11 @@ public class Segments implements Iterable<Segment>
   public Segments() 
   {
     segments_ = new ArrayList<Segment>();
+  } // Segments
+  
+  private Segments(final List<Segment> segments)
+  {
+    segments_ = segments;
   } // Segments
   
   public int count() { return segments_.size(); }
@@ -47,6 +53,13 @@ public class Segments implements Iterable<Segment>
   } // add
   
   public Segment get(final int i) { return segments_.get(i); }
+  
+  public Segments reversed()
+  {
+      final List<Segment> segments = new ArrayList<Segment>(segments_);
+      Collections.reverse(segments);
+      return new Segments(segments);
+  } // reversed
   
   @Override
   public Iterator<Segment> iterator() { return segments_.iterator(); }
