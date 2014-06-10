@@ -36,7 +36,12 @@ final class GoingOffCourse extends LiveRideState
       return new ReplanFromHere(this, whereIam);
     
     if(nearestSeg != journey.activeSegment())
-      return new AdvanceToSegment(this, journey, nearestSeg);
+    {
+      if(CycleStreetsPreferences.verboseVoiceGuidance())
+        return new JoinSegment(this, journey, nearestSeg);
+      else
+        return new AdvanceToSegment(this, journey, nearestSeg);
+    }
 
     if(distance <= CycleStreetsPreferences.offtrackDistance() - 5) {
       notify("Getting back on track");

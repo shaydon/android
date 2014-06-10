@@ -31,6 +31,10 @@ public class CycleStreetsPreferences
   public final static String PREF_BLOG_NOTIFICATIONS = "blog-notifications";
   public final static String PREF_TURN_NOW = "turn-now-distance";
   public final static String PREF_NEARING_TURN = "nearing-turn-distance";
+  public final static String PREF_ALMOST_AT_TURN = "almost-at-turn-distance";
+  public final static String PREF_START_COUNTDOWN = "start-countdown-distance";
+  public final static String PREF_COUNTDOWN_STEP = "countdown-step-distance";
+  public final static String PREF_END_COUNTDOWN = "end-countdown-distance";
   public final static String PREF_OFFTRACK_DISTANCE = "offtrack-distance";
   public final static String PREF_REPLAN_DISTANCE = "replan-distance";
   public final static String PREF_VERBOSE_VOICE_GUIDANCE = "verbose-voice-guidance";
@@ -124,6 +128,22 @@ public class CycleStreetsPreferences
 
   static public int nearingTurnDistance() {
     return Integer.parseInt(getString(PREF_NEARING_TURN, "50"));
+  }
+
+  static public int almostAtTurnDistance() {
+    return Integer.parseInt(getString(PREF_ALMOST_AT_TURN, "30"));
+  }
+
+  static public int startCountdownDistance() {
+    return Integer.parseInt(getString(PREF_START_COUNTDOWN, "20"));
+  }
+
+  static public int countdownStepDistance() {
+    return Integer.parseInt(getString(PREF_COUNTDOWN_STEP, "5"));
+  }
+
+  static public int endCountdownDistance() {
+    return Integer.parseInt(getString(PREF_END_COUNTDOWN, "10"));
   }
 
   static public int offtrackDistance() {

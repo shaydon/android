@@ -23,7 +23,7 @@ public class Journey
   private Segments segments_;
   private int activeSegment_;
   private int lastWarnedSegment_;
-    
+
   static public final Journey NULL_JOURNEY;
   static {
     NULL_JOURNEY = new Journey();
@@ -36,7 +36,7 @@ public class Journey
     waypoints_ = new Waypoints();
     segments_ = new Segments();
     activeSegment_ = 0;
-    lastWarnedSegment_ = 0;
+    lastWarnedSegment_ = -1;
   } // PlannedRoute
   
   private Journey(final Waypoints waypoints)

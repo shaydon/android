@@ -22,7 +22,7 @@ public class LiveRideService extends Service
   private LocationManager locationManager_;
   private Location lastLocation_;
   private LiveRideState stage_;
-  
+
   private static int updateDistance = 5;  // metres
   private static int updateTime = 500;    // milliseconds
 
@@ -106,7 +106,7 @@ public class LiveRideService extends Service
 
     final Journey journey = Route.journey();
 
-    if (CycleStreetsPreferences.verboseVoiceGuidance())
+    if(CycleStreetsPreferences.verboseVoiceGuidance())
     {
       LiveRideState previous;
       do

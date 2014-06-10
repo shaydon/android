@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-    	android:title="Routing">
+	<PreferenceCategory
+		android:title="Routing">
 		<ListPreference
 			android:key="routetype"
 			android:title="Route type default"
@@ -16,8 +16,8 @@
 			android:entries="@array/speed"
 			android:entryValues="@array/speed_values" />
 	</PreferenceCategory>
-    <PreferenceCategory
-    	android:title="User Interface">
+	<PreferenceCategory
+		android:title="User Interface">
 		<ListPreference
 			android:key="units"
 			android:title="Units"
@@ -32,16 +32,16 @@
 			android:defaultValue="CycleStreets-OSM"
 			android:entries="@array/mapstyle"
 			android:entryValues="@array/mapstyle_values" />
-    <ListPreference 
-      android:key="mapfile"
-      android:title="Vector Mapfile"/>
+	<ListPreference
+	  android:key="mapfile"
+	  android:title="Vector Mapfile"/>
 		<ListPreference 
-	    android:key="iconsize"
-	    android:title="Icon size"
-	    android:summary="Icon Size"
-	    android:defaultValue="20"
-	    android:entries="@array/iconsize"
-	    android:entryValues="@array/iconsize_values" />
+		android:key="iconsize"
+		android:title="Icon size"
+		android:summary="Icon Size"
+		android:defaultValue="20"
+		android:entries="@array/iconsize"
+		android:entryValues="@array/iconsize_values" />
 		<CheckBoxPreference
 			android:key="confirm-new-route"
 			android:title="Confirm Start New Route"
@@ -74,26 +74,55 @@
 			android:defaultValue="50"
 			android:entries="@array/distance"
 			android:entryValues="@array/distance_values" />
-        <CheckBoxPreference
-            android:key="verbose-voice-guidance"
-            android:title="Verbose voice guidance"
-            android:defaultValue="false" />
-	</PreferenceCategory>
-    <PreferenceCategory
-    	android:title="CycleStreets Account">
+		<CheckBoxPreference
+			android:key="verbose-voice-guidance"
+			android:title="Verbose voice guidance"
+			android:defaultValue="false" />
 		<PreferenceScreen
-    	    android:title="Account Details"
-    		android:key="cyclestreets-account">
-    		<intent android:action="android.intent.action.MAIN"
-                    android:targetPackage="net.cyclestreets"
-                    android:targetClass="net.cyclestreets.AccountDetailsActivity"/>
+			android:title="Verbose Guidance Tweaks"
+			android:dependency="verbose-voice-guidance">
 			<EditTextPreference
-                    android:key="username"
-                    android:title="Username"/>
-            <EditTextPreference
-                    android:key="password"
-                    android:title="Password"
-                    android:password="true"/>
+				android:key="almost-at-turn-distance"
+				android:title="Turn instruction distance (m)"
+				android:summary="30"
+				android:defaultValue="30" />
+			<EditTextPreference
+				android:key="start-countdown-distance"
+				android:title="Beeps start distance (m)"
+				android:summary="20"
+				android:defaultValue="20" />
+			<EditTextPreference
+				android:key="countdown-step-distance"
+				android:title="Distance between beeps (m)"
+				android:summary="5"
+				android:defaultValue="5" />
+			<EditTextPreference
+				android:key="end-countdown-distance"
+				android:title="Long beep distance (m)"
+				android:summary="10"
+				android:defaultValue="10" />
+			<EditTextPreference
+				android:key="coalesce-warnings-distance"
+				android:title="Combine warnings up to... (m)"
+				android:summary="50"
+				android:defaultValue="50" />
+		</PreferenceScreen>
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="CycleStreets Account">
+		<PreferenceScreen
+			android:title="Account Details"
+			android:key="cyclestreets-account">
+			<intent android:action="android.intent.action.MAIN"
+					android:targetPackage="net.cyclestreets"
+					android:targetClass="net.cyclestreets.AccountDetailsActivity"/>
+			<EditTextPreference
+					android:key="username"
+					android:title="Username"/>
+			<EditTextPreference
+					android:key="password"
+					android:title="Password"
+					android:password="true"/>
 		</PreferenceScreen>
 		<ListPreference
 			android:key="uploadsize"

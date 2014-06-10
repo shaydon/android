@@ -13,6 +13,9 @@ final class OnTheMove extends MovingState
   @Override
   protected LiveRideState transitionState(final Journey journey)
   {
-    return new NearingTurn(this, journey);
-  } // transitionStatue
+    if(CycleStreetsPreferences.verboseVoiceGuidance())
+      return new NearingTurnVerbose(this, journey);
+    else
+      return new NearingTurn(this, journey);
+  } // transitionState
 } // class OnTheMove

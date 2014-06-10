@@ -26,7 +26,9 @@ abstract class MovingState extends LiveRideState
 
     return checkCourse(journey, whereIam, accuracy);
   } // update
-  
+
+  protected int transitionThreshold() { return transition_; }
+
   protected abstract LiveRideState transitionState(final Journey journey);
     
   private LiveRideState checkCourse(final Journey journey, final GeoPoint whereIam, final int accuracy)

@@ -215,7 +215,15 @@ public abstract class Segment
   {
     return finish().distanceTo(location);
   } // distanceFromEnd
-  
+
+  public int nearestBearing(final GeoPoint location)
+  {
+    int minIndex = closestPoint(location);
+    if(minIndex < 0 || minIndex >= points_.size() - 1)
+      return -1;
+    return (int) Math.round(Math.toDegrees(GeoHelper.bearingTo(points_.get(minIndex), points_.get(minIndex + 1))));
+  }
+
   public String street() { return name_; }
   public String turn() { return turn_; }
   public boolean walk() { return walk_; }

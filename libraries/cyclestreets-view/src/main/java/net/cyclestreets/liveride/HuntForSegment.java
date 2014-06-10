@@ -44,8 +44,11 @@ final class HuntForSegment extends LiveRideState
 
     if(nearestSeg == journey.activeSegment())
       return new OnTheMove(this);
-    
-    return new AdvanceToSegment(this, journey, nearestSeg);
+
+    if(CycleStreetsPreferences.verboseVoiceGuidance())
+      return new JoinSegment(this, journey, nearestSeg);
+    else
+      return new AdvanceToSegment(this, journey, nearestSeg);
   } // update
 
   @Override
