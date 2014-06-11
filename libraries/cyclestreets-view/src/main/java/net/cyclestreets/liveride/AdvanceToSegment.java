@@ -23,6 +23,9 @@ final class AdvanceToSegment extends LiveRideState
   } // AdvanceToSegment
   
   @Override
+  public final boolean stationaryUpdates() { return false; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     if(journey.atWaypoint())

@@ -16,6 +16,9 @@ abstract class MovingState extends LiveRideState
   } // OnTheMove
   
   @Override
+  public final boolean stationaryUpdates() { return false; }
+  
+  @Override
   public final LiveRideState update(final Journey journey, final GeoPoint whereIam, final int accuracy)
   {
     int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);

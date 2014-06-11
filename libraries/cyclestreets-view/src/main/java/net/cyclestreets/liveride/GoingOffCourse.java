@@ -15,6 +15,9 @@ final class GoingOffCourse extends LiveRideState
   }
 
   @Override
+  public final boolean stationaryUpdates() { return false; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     Segment nearestSeg = null;

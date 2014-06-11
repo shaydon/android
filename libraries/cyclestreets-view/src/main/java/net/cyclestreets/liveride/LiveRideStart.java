@@ -16,6 +16,9 @@ final class LiveRideStart extends LiveRideState
   } // LiveRideStart
   
   @Override
+  public final boolean stationaryUpdates() { return true; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     notify("Live Ride", "Live Ride");

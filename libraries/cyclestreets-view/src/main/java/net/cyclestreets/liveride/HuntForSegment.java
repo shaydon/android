@@ -17,6 +17,9 @@ final class HuntForSegment extends LiveRideState
   } // HuntForSegment
   
   @Override
+  public boolean stationaryUpdates() { return true; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     if(waitToSettle_ > 0) {

@@ -47,6 +47,7 @@ public abstract class LiveRideState
     tts_ = state.tts();
   } // LiveRideState
   
+  public abstract boolean stationaryUpdates();
   public abstract LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy);
   public abstract boolean isStopped();
   public abstract boolean arePedalling();
