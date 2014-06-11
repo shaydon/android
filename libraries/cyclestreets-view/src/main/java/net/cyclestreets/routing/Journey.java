@@ -100,6 +100,17 @@ public class Journey
   } // advanceActiveSegment
 
   /**
+   * Returns all segments up to and including the active segment.
+   */
+  public Segments passedSegments()
+  {
+    final Segments passed = new Segments();
+    for(int i = 0; i <= activeSegment_; ++i)
+      passed.add(segments_.get(i));
+    return passed;
+  }
+  
+  /**
    * Returns all segments beyond the active segment.
    */
   public Segments upcomingSegments()
@@ -109,6 +120,21 @@ public class Journey
       upcoming.add(segments_.get(i));
     return upcoming;
   } // upcomingSegments
+
+  /**
+   * Returns segments up to the first routing waypoint beyond the active segment.
+   * 
+   * Includes the waypoint segment.
+   */
+  public Segments segmentsUpToNextWaypoint()
+  {
+    final Segments segments = passedSegments();
+    for(final Segment seg : upcomingSegments()) {
+      segments.add(seg);
+      if (seg.isWaypoint()) break;
+    }
+    return segments;
+  } // segmentsUpToNextWaypoint
   
   public Iterator<GeoPoint> points()
   {
