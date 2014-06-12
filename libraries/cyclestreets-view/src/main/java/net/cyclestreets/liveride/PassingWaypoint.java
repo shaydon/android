@@ -13,6 +13,9 @@ final class PassingWaypoint extends LiveRideState
   } // PassingWaypoint
 
   @Override
+  public final boolean stationaryUpdates() { return false; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     return new AdvanceToSegment(this, journey);

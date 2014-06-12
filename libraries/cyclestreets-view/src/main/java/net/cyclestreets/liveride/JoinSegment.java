@@ -21,6 +21,9 @@ final class JoinSegment extends LiveRideState
   } // JoinSegment
   
   @Override
+  public boolean stationaryUpdates() { return false; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     Segment seg = journey.activeSegment();

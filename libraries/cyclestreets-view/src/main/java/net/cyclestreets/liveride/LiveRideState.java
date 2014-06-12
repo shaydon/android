@@ -61,6 +61,7 @@ public abstract class LiveRideState
     android.util.Log.d("CYCLESTREETS", msg);
   }
 
+  public abstract boolean stationaryUpdates();
   public abstract LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy);
   public abstract boolean isStopped();
   public abstract boolean arePedalling();
