@@ -15,6 +15,9 @@ final class GoingOffCourse extends LiveRideState
   }
 
   @Override
+  public final boolean stationaryUpdates() { return false; }
+  
+  @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     Segment nearestSeg = null;
@@ -36,7 +39,12 @@ final class GoingOffCourse extends LiveRideState
       return new ReplanFromHere(this, journey, whereIam);
     
     if(nearestSeg != journey.activeSegment())
-      return new AdvanceToSegment(this, journey, nearestSeg);
+    {
+      if(CycleStreetsPreferences.verboseVoiceGuidance())
+        return new JoinSegment(this, journey, nearestSeg);
+      else
+        return new AdvanceToSegment(this, journey, nearestSeg);
+    }
 
     if(distance <= CycleStreetsPreferences.offtrackDistance() - 5) {
       notify("Getting back on track");

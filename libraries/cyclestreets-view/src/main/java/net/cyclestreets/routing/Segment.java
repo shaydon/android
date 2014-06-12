@@ -215,12 +215,21 @@ public abstract class Segment
   {
     return finish().distanceTo(location);
   } // distanceFromEnd
-  
+
+  public int nearestBearing(final GeoPoint location)
+  {
+    int minIndex = closestPoint(location);
+    if(minIndex < 0 || minIndex >= points_.size() - 1)
+      return -1;
+    return (int) Math.round(Math.toDegrees(GeoHelper.bearingTo(points_.get(minIndex), points_.get(minIndex + 1))));
+  }
+
   public String street() { return name_; }
   public String turn() { return turn_; }
   public boolean walk() { return walk_; }
   public String runningTime() { return running_time_; }
   public String distance() { return formatter.distance(distance_); }
+  public int numericDistance() { return distance_; }
   public String runningDistance() { return formatter.total_distance(running_distance_); }
   public String extraInfo() { return ""; }
   public IterableIterator<GeoPoint> points() { return new IterableIterator<GeoPoint>(points_.iterator()); }

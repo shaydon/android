@@ -16,16 +16,22 @@ abstract class MovingState extends LiveRideState
   } // OnTheMove
   
   @Override
+  public final boolean stationaryUpdates() { return false; }
+  
+  @Override
   public final LiveRideState update(final Journey journey, final GeoPoint whereIam, final int accuracy)
   {
     int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
     distanceFromEnd -= accuracy;
+    log("Distance from end: " + distanceFromEnd);
     if(distanceFromEnd < transition_)
       return transitionState(journey);
 
     return checkCourse(journey, whereIam, accuracy);
   } // update
-  
+
+  protected int transitionThreshold() { return transition_; }
+
   protected abstract LiveRideState transitionState(final Journey journey);
     
   private LiveRideState checkCourse(final Journey journey, final GeoPoint whereIam, final int accuracy)

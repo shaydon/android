@@ -2,6 +2,7 @@ package net.cyclestreets.liveride;
 
 import org.osmdroid.util.GeoPoint;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import android.app.Service;
@@ -21,7 +22,7 @@ public class LiveRideService extends Service
   private LocationManager locationManager_;
   private Location lastLocation_;
   private LiveRideState stage_;
-  
+
   private static int updateDistance = 5;  // metres
   private static int updateTime = 500;    // milliseconds
 
@@ -57,14 +58,12 @@ public class LiveRideService extends Service
     if(!stage_.isStopped())
       return;
     
-    stage_ = LiveRideState.InitialState(this);
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
+    stepStage(LiveRideState.InitialState(this));
   } // startRiding
 
   public void stopRiding()
   {
-    stage_ = LiveRideState.StoppedState(this);
-    locationManager_.removeUpdates(this);
+    stepStage(LiveRideState.StoppedState(this));
   } // stopRiding
 
   public boolean areRiding()
@@ -76,6 +75,21 @@ public class LiveRideService extends Service
   {
     return lastLocation_;
   } // lastLocation
+
+  private void stepStage(final LiveRideState nextStage)
+  {
+    if(nextStage.isStopped())
+    {
+      locationManager_.removeUpdates(this);
+    }
+    else if(stage_.isStopped() || (stage_.stationaryUpdates() != nextStage.stationaryUpdates()))
+    {
+      locationManager_.removeUpdates(this);  // In case it's possible to be multiply registered.
+      locationManager_.requestLocationUpdates(
+        LocationManager.GPS_PROVIDER, updateTime, nextStage.stationaryUpdates() ? 0 : updateDistance, this);
+    }
+    stage_ = nextStage;
+  } // stepStage
   
   public class Binding extends Binder
   {
@@ -104,8 +118,20 @@ public class LiveRideService extends Service
     final float accuracy = location.hasAccuracy() ? location.getAccuracy() : 2;
 
     final Journey journey = Route.journey();
- 
-    stage_ = stage_.update(journey, whereIam, (int)accuracy);
+    
+    if(CycleStreetsPreferences.verboseVoiceGuidance())
+    {
+      LiveRideState previous;
+      do
+      {
+        previous = stage_;
+        stepStage(stage_.update(journey, whereIam, (int) accuracy));
+      } while (stage_ != previous);
+    }
+    else
+    {
+      stepStage(stage_.update(journey, whereIam, (int) accuracy));
+    }
   } // onLocationChanged
 
   @Override
