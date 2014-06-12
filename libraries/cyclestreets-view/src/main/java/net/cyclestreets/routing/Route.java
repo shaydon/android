@@ -69,14 +69,23 @@ public class Route
   static public void softRegisterListener(final Listener l) { listeners_.softRegister(l); }
   static public void unregisterListener(final Listener l) { listeners_.unregister(l); }
 
-	static public void PlotRoute(final String plan,
-              								 final int speed,
-              								 final Context context,
-                               final Waypoints waypoints)
-	{
-		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context);
-		query.execute(waypoints);
-	} // PlotRoute
+    static public void PlotRoute(final String plan,
+                                 final int speed,
+                                 final Context context,
+                                 final Waypoints waypoints)
+    {
+      PlotRoute(plan, speed, context, waypoints, 0);
+    }
+    
+    static public void PlotRoute(final String plan,
+                                 final int speed,
+                                 final Context context,
+                                 final Waypoints waypoints,
+                                 final int waypointNumberOffset)
+    {
+      final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context, waypointNumberOffset);
+      query.execute(waypoints);
+    } // PlotRoute
 
 	static public void FetchRoute(final String plan,
 	                              final long itinerary,
@@ -173,7 +182,7 @@ public class Route
 			return;
 		} // if ...
 
-		plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name());
+		plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name(), route.waypointNumberOffset());
 
 		db_.saveRoute(plannedRoute_, route.xml());
 		waypoints_ = plannedRoute_.waypoints();

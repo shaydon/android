@@ -35,14 +35,22 @@ public abstract class RoutingTask<Params>
                                  final int speed,
                                  final Waypoints waypoints) 
   {
-    return fetchRoute(routeType, -1, speed, waypoints);
+    return fetchRoute(routeType, -1, speed, waypoints, 0);
   } // fetchRoute
-	
+
+  protected RouteData fetchRoute(final String routeType,
+                                 final int speed,
+                                 final Waypoints waypoints,
+                                 final int waypointNumberOffset)
+  {
+    return fetchRoute(routeType, -1, speed, waypoints, waypointNumberOffset);
+  } // fetchRoute
+
   protected RouteData fetchRoute(final String routeType,
                                  final long itinerary,
                                  final int speed)
   { 
-    return fetchRoute(routeType, itinerary, speed, null);
+    return fetchRoute(routeType, itinerary, speed, null, 0);
   } // fetchRoute
 	
   protected RouteData fetchRoute(final String routeType, 
@@ -50,9 +58,18 @@ public abstract class RoutingTask<Params>
                                  final int speed,
                                  final Waypoints waypoints) 
   {
+    return fetchRoute(routeType, itinerary, speed, waypoints, 0);
+  }
+  
+  protected RouteData fetchRoute(final String routeType,
+                                 final long itinerary,
+                                 final int speed,
+                                 final Waypoints waypoints,
+                                 final int waypointNumberOffset)
+  {
     try {
       final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
-      return new RouteData(xml, waypoints, null);
+      return new RouteData(xml, waypoints, null, waypointNumberOffset);
     } // try
     catch (Exception e) {
       error_ = "Could not contact CycleStreets.net : " + e.getMessage();

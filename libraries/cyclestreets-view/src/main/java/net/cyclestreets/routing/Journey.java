@@ -22,6 +22,7 @@ public class Journey
   private Waypoints waypoints_;
   private Segments segments_;
   private int activeSegment_;
+  private int waypointNumberOffset_;
     
   static public final Journey NULL_JOURNEY;
   static {
@@ -34,13 +35,15 @@ public class Journey
     waypoints_ = new Waypoints();
     segments_ = new Segments();
     activeSegment_ = 0;   
+    waypointNumberOffset_ = 0;
   } // PlannedRoute
   
-  private Journey(final Waypoints waypoints)
+  private Journey(final Waypoints waypoints, final int waypointNumberOffset)
   {
     this();
     if(waypoints != null)
       waypoints_ = waypoints;
+    waypointNumberOffset_ = waypointNumberOffset;
   } // Journey
 
   public boolean isEmpty() { return segments_.isEmpty(); }
@@ -51,6 +54,8 @@ public class Journey
 
   public Waypoints waypoints() { return waypoints_; }
     
+  public int waypointNumberOffset() { return waypointNumberOffset_; }
+  
   public String url() { return "http://cycle.st/j" + itinerary(); }
   public int itinerary() { return s().itinerary(); }
   public String name() { return s().name(); }
@@ -132,13 +137,14 @@ public class Journey
   {
     return a1 != null ? a1 : a2;
   } // pD
-    
-  static Journey loadFromXml(final String xml, 
+
+  static Journey loadFromXml(final String xml,
                              final Waypoints points,
-                             final String name) 
+                             final String name,
+                             final int waypointNumberOffset)
     throws Exception
   {
-    final JourneyFactory factory = factory(points, name);
+    final JourneyFactory factory = factory(points, name, waypointNumberOffset);
     
     try {
       Xml.parse(xml, factory.contentHandler());
@@ -177,15 +183,17 @@ As at 16 October 2012
    */
   
   static private JourneyFactory factory(final Waypoints waypoints,
-                                         final String name) 
+                                        final String name,
+                                        final int waypointNumberOffset) 
   { 
-    return new JourneyFactory(waypoints, name);
+    return new JourneyFactory(waypoints, name, waypointNumberOffset);
   } // factory
   
   static private class JourneyFactory 
   {    
     private final Journey journey_;
     private final String name_;
+    private final int waypointNumberOffset_;
     private int total_time = 0;
     private int total_distance = 0;
     private int itinerary_ = 0;
@@ -198,10 +206,12 @@ As at 16 October 2012
     private int leg_ = 1;
 
     public JourneyFactory(final Waypoints waypoints,
-                          final String name) 
+                          final String name,
+                          final int waypointNumberOffset) 
     {
-      journey_ = new Journey(waypoints);
+      journey_ = new Journey(waypoints, waypointNumberOffset);
       name_ = name;
+      waypointNumberOffset_ = waypointNumberOffset;
     } // JourneyFactory
     
     private ContentHandler contentHandler()
@@ -232,7 +242,7 @@ As at 16 October 2012
             
             if(currentLeg != leg_) 
             {
-              journey_.segments_.add(new Segment.Waymark(leg_, total_distance, points.get(0)));
+              journey_.segments_.add(new Segment.Waymark(leg_ + waypointNumberOffset_, total_distance, points.get(0)));
               leg_ = currentLeg;
             } // if ...              
 

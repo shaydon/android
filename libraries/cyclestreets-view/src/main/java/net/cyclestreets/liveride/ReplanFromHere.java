@@ -18,7 +18,7 @@ final class ReplanFromHere extends LiveRideState
 
     next_ = this;
 
-    // Reroute through unvisited waypoints, preserving speed and journey type.
+    // Reroute through unvisited waypoints, preserving speed, journey type and waypoint numbering.
     
     final Waypoints waypoints = new Waypoints();
     waypoints.add(whereIam);
@@ -29,7 +29,10 @@ final class ReplanFromHere extends LiveRideState
     Route.PlotRoute(journey.plan(),
                     journey.speed(),
                     context(),
-                    waypoints);
+                    waypoints,
+                    journey.waypointNumberOffset()
+                  + journey.waypoints().count()
+                  - waypoints.count());
   } // ReplanFromHere
   
   @Override
