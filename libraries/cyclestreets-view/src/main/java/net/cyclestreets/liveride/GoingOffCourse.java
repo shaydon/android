@@ -35,6 +35,8 @@ final class GoingOffCourse extends LiveRideState
     
     distance -= accuracy;
     
+    log("nearestSeg: " + (nearestSeg == null ? "NULL" : nearestSeg.street()) + " distance: " + distance);
+    
     if(distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, journey, whereIam);
     

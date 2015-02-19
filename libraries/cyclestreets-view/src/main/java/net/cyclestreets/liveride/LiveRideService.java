@@ -117,6 +117,8 @@ public class LiveRideService extends Service
     final GeoPoint whereIam = new GeoPoint(location);
     final float accuracy = location.hasAccuracy() ? location.getAccuracy() : 2;
 
+    android.util.Log.d("CYCLESTREETS", "whereIam: " + whereIam + " accuracy: " + accuracy);
+    
     final Journey journey = Route.journey();
     
     if(CycleStreetsPreferences.verboseVoiceGuidance())

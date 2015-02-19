@@ -39,6 +39,8 @@ abstract class MovingState extends LiveRideState
     int distance = journey.activeSegment().distanceFrom(whereIam);
     distance -= accuracy;
     
+    log("Distance from segment:" + distance);
+    
     if(distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, journey, whereIam);
 

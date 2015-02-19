@@ -22,6 +22,7 @@ final class LiveRideStart extends LiveRideState
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
+    log("itinerary:" + journey.itinerary());
     notify("Live Ride", "Live Ride");
     journey.setActiveSegmentIndex(0);
     journey.setLastWarnedSegmentIndex(-1);

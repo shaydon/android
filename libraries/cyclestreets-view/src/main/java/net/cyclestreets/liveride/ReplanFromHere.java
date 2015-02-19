@@ -53,6 +53,7 @@ final class ReplanFromHere extends LiveRideState
   @Override
   public void onNewJourney(Journey journey, Waypoints waypoints)
   {
+    log("itinerary: " + journey.itinerary());
     next_ = new HuntForSegment(this);
     Route.unregisterListener(this);
   } // onNewJourney
